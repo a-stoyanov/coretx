@@ -11,7 +11,12 @@
     {"name":"puppetlabs/stdlib","version_requirement":">= 2.0.0"}
   ],
   "data_provider": null,
-  "operatingsystem_support": "RedHat, CentOS, Debian, Ubuntu",
+  "operatingsystem_support": [
+    "RHEL",
+    "CentOS",
+    "Debian",
+    "Ubuntu"
+  ],
   "requirements": [
     {
       "name": "puppet",
