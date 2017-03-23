@@ -2,19 +2,30 @@
 
 ## Description
 
-A collection of parameterized classes for common resource management on Linix clients. Designed and tested for use with an ENC.
+A collection of parameterized classes for common resource management on Linix clients.
+
+Designed and tested for use with an ENC.
+
 Supported OS list: RHEL/CentOS/Debian/Ubuntu.
 
 
 ## What does this module do?
 Class coretx::identity - Manage user and group resources. User definition includes multiple SSH keys management via erb template.
+
 Class coretx::cronjob - Manage user and system-wide (/etc/crontab) cron jobs. System crontab is managed via erb template.
+
 Class coretx::fsmounts - Manage file system mounts resources (/etc/fstab).
+
 Class coretx::root - Manage the root super user account. Includes multiple SSH keys management via erb template (~/.ssh/authorized_keys).
+
 Class coretx::hosts - Manage the hosts file (/etc/hosts) via erb template.
+
 Class coretx::files - Manage file/folder resources.
+
 Class coretx::yumrepos - Manage yum repositories on RedHat systems.
+
 Class coretx::packages - Manage generic package resources states.
+
 Class coretx::services - Manage generic service resource states.
 
 
@@ -35,13 +46,16 @@ puppet module install astoyanov-coretx
 
 ## Class coretx::identity
 Manage user account and group resources - This class will overwrite individual user $home/.ssh/authorized_keys files!
+
 Resource documentation (user): https://docs.puppet.com/puppet/latest/types/user.html
+
 Resource documentation (group): https://docs.puppet.com/puppet/latest/types/group.html
 
 ### Parameters
 
 #### users_hash
 Hash parameter which can be used for multi user resource management via create_resources().
+
 Resource documentation (user): https://docs.puppet.com/puppet/latest/types/user.html
 
 - *Default*: {}
@@ -104,6 +118,7 @@ coretx::identity:
 
 #### groups_hash
 Hash parameter which can be used for multi group resource management via create_resources().
+
 Resource documentation (group): https://docs.puppet.com/puppet/latest/types/group.html
 
 - *Default*: {}
@@ -124,7 +139,9 @@ coretx::identity:
 
 #### home_dir_parents
 Hash parameter which can be used for multi folder resource management via create_resources().
+
 You can use this to create parent directories for home folders if needed.
+
 Resource documentation (file): https://docs.puppet.com/puppet/latest/types/file.html
 
 - *Default*: {}
@@ -148,12 +165,14 @@ coretx::identity:
 
 ## Class coretx::cronjob
 Manage user and system-wide Cron jobs (/etc/crontab) - This class will overwrite your system Crontab file!
+
 Resource documentation (cron): https://docs.puppet.com/puppet/latest/types/cron.html
 
 ### Parameters
 
 ### user_cronjobs_hash
-Hash parameter which can be used for multi user cron job resource management via create_resources()
+Hash parameter which can be used for multi user cron job resource management via create_resources().
+
 Writes cron entries in individual user crontabs.
 
 - *Default*: {}
@@ -181,6 +200,7 @@ coretx::cronjob:
 
 ### crontab_jobs_hash
 Hash parameter which can be used for system Crontab file (/etc/crontab) management via erb template.
+
 If this parameter is supplied a hash input, the class will detect the client OS (RedHat/Debian/Ubuntu) and write out a default template (coretx/crontab_deb.erb or coretx/crontab_el.erb)
 
 - *Default*: {}
@@ -208,6 +228,7 @@ coretx::cronjob:
 
 ### override_crontab_template
 String parameter which can be used to override what template to use - e.g when you are attempting to use this class on a client OS other than RedHat/Debian/Ubuntu.
+
 You can also supply your own template, just need to copy it to the coretx/templates plugin folder.
 
 - *Default*: 'use_defaults'
@@ -215,6 +236,7 @@ You can also supply your own template, just need to copy it to the coretx/templa
 
 ### override_crontab_path
 String parameter which can be used to override what PATH value to use on a provided template.
+
 The class will detect and supply defaults for the client OS - RedHat/Debian/Ubuntu.
 
 - *Default*: 'use_defaults'
@@ -222,6 +244,7 @@ The class will detect and supply defaults for the client OS - RedHat/Debian/Ubun
 
 ### override_crontab_shell
 String parameter which can be used to override what SHELL value to use on a provided template.
+
 The class will detect and supply defaults for the client OS - RedHat/Debian/Ubuntu.
 
 - *Default*: 'use_defaults'
@@ -229,6 +252,7 @@ The class will detect and supply defaults for the client OS - RedHat/Debian/Ubun
 
 ### override_cron_service
 String parameter which can be used to specify what CRON service name value is in use on the system for service ensure/enable states and refresh triggers.
+
 The class will detect and supply defaults for the client OS - RedHat/Debian/Ubuntu.
 
 - *Default*: 'use_defaults'
@@ -248,6 +272,7 @@ Boolean parameter which can be used to specify the enable state of the CRON serv
 
 ## Class coretx::fsmounts
 Manage the filesystem mount states (/etc/fstab)
+
 Resource documentation (mount): https://docs.puppet.com/puppet/latest/types/mount.html
 
 ### Parameters
@@ -281,6 +306,7 @@ coretx::fsmounts:
 
 ### fsmounts_dir_hash
 Hash parameter which can be used for mount directory management via create_resources().
+
 You can use this to create the mount directories on the local system, if needed.
 
 - *Default*: {}
@@ -309,7 +335,9 @@ String parameter which can be used to specify the default 'ensure' key values in
 
 ### default_fsmounts_options
 String parameter which can be used to specify the default 'options' key value. 
+
 You can specify multiple options in the same key as a single String, comma separated.
+
 Check man pages for more details mount(8).
 
 - *Default*: 'defaults'
@@ -324,12 +352,14 @@ Boolean parameter which can be used too specify the default 'remounts' key value
 
 ## Class coretx::root
 Manage the root superuser.
+
 Resource documentation (user): https://docs.puppet.com/puppet/latest/types/user.html
 
 ### Parameters
 
 ### root_ssh_keys
 Hash parameter which can be used to specify ssh keys in via provided erb template.
+
 Overwrites the specified SSH keys file! (Default: /etc/.ssh/authorized_keys)
 
 - *Default*: {}
@@ -378,6 +408,7 @@ Use this String parameter to specify the root account expiry date.
 
 ### root_passwd_hash
 String parameter which can be used to specify the root account password in encrypted hashed format.
+
 You can generate a salted encrypted password with the following:
 
 <pre>
@@ -402,7 +433,9 @@ String parameter which can be used to specify the root account password min age 
 
 ## Class coretx::hosts
 Manage the hosts file (/etc/hosts) via erb template - This class will overwrite your hosts file!
+
 Based off module chrekh/puppet-hosts - origin project url: https://github.com/chrekh/puppet-hosts
+
 This class makes use of a custom fact (coretx/lib/facter/list_addrs.rb)
 
 ### Parameters
@@ -473,13 +506,16 @@ If true, only use the first address from primary_ipv6
 
 ## Class coretx::files
 Manage file resources on client systems
+
 Resource documentation (file): https://docs.puppet.com/puppet/latest/types/file.html
+
 Resource documentation (file_line): https://forge.puppet.com/puppetlabs/stdlib#file_line
 
 ### Parameters
 
 ### files_hash
-Hash parameter which can be used for multi file/folder resource management via create_resources()
+Hash parameter which can be used for multi file/folder resource management via create_resources().
+
 You can put your own custom source files inside the coretx/files plugin directory and include them via with a 'source' key/value.
 
 - *Default*: {}
@@ -503,6 +539,7 @@ coretx::files:
 
 ### file_line_hash
 Hash parameter which can be used to supply arguments to the file_line() stdlib function via create_resources().
+
 The file_line() function can be used to modify line content in files by using regex match/replace.
 
 - *Default*: {}
@@ -520,7 +557,9 @@ coretx::files:
 
 ### create_parent_dirs
 Boolean parameter which controls whether the class should also create the parent directories in $files_hash.
+
 If true, scan the $files_hash parameter supplied hash for all "path" key/values and run a "mkdir -p" against each value.
+
 Ensures all parent directories are created recursively.
 
 - *Default*: false
@@ -528,6 +567,7 @@ Ensures all parent directories are created recursively.
 
 ### default_files_ensure
 String parameter used as default value for $files_hash 'ensure' keys.
+
 Can be overridden by specifying the 'ensure' key for each individual nested hash in $files_hash.
 
 - *Default*: 'present'
@@ -551,6 +591,7 @@ String parameter which can be used for specifying the default 'mode' key value f
 
 ## Class coretx::yumrepos
 Manage yum repository definitions for the RedHat family.
+
 Resource documentation (yumrepo): https://docs.puppet.com/puppet/latest/types/yumrepo.html
 
 ### Parameters
@@ -588,6 +629,7 @@ String parameter which can be used for specifying the default 'gpgcheck' key val
 
 ## Class coretx::packages
 Manage software package states.
+
 Resource documentation (package): https://docs.puppet.com/puppet/latest/types/package.html
 
 ### Parameters
@@ -626,6 +668,7 @@ coretx::packages:
 
 ## Class coretx::services
 Manage existing service states.
+
 Resource documentation (service): https://docs.puppet.com/puppet/latest/types/service.html
 
 ### Parameters
