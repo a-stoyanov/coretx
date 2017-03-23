@@ -1,12 +1,12 @@
 # puppet-module-coretx
 
 ## Description
---------------
+
 A collection of parameterized classes for common resource management on Linix clients. Designed and tested for use with an ENC.
 Supported OS list: RHEL/CentOS/Debian/Ubuntu.
 
+
 ## What does this module do?
-----------------------------
 Class coretx::identity - Manage user and group resources. User definition includes multiple SSH keys management via erb template.
 Class coretx::cronjob - Manage user and system-wide (/etc/crontab) cron jobs. System crontab is managed via erb template.
 Class coretx::fsmounts - Manage file system mounts resources (/etc/fstab).
@@ -17,8 +17,8 @@ Class coretx::yumrepos - Manage yum repositories on RedHat systems.
 Class coretx::packages - Manage generic package resources states.
 Class coretx::services - Manage generic service resource states.
 
+
 ## Compatibility
-----------------
 This module supports Puppet v4 and above.
 
 Tested on:
@@ -26,9 +26,10 @@ Tested on:
 * Debian 6/7/8
 * Ubuntu 16
 
+
 ## Installing the module
-------------------------
 puppet module install astoyanov-coretx
+
 
 ## Usage
 
@@ -36,7 +37,7 @@ puppet module install astoyanov-coretx
 Manage user account and group resources - This class will overwrite individual user $home/.ssh/authorized_keys files!
 Resource documentation (user): https://docs.puppet.com/puppet/latest/types/user.html
 Resource documentation (group): https://docs.puppet.com/puppet/latest/types/group.html
---------------------------------------------------------------------------------------
+
 ### Parameters
 
 #### users_hash
@@ -148,7 +149,7 @@ coretx::identity:
 ## Class coretx::cronjob
 Manage user and system-wide Cron jobs (/etc/crontab) - This class will overwrite your system Crontab file!
 Resource documentation (cron): https://docs.puppet.com/puppet/latest/types/cron.html
-------------------------------------------------------------------------------------
+
 ### Parameters
 
 ### user_cronjobs_hash
@@ -248,7 +249,7 @@ Boolean parameter which can be used to specify the enable state of the CRON serv
 ## Class coretx::fsmounts
 Manage the filesystem mount states (/etc/fstab)
 Resource documentation (mount): https://docs.puppet.com/puppet/latest/types/mount.html
---------------------------------------------------------------------------------------
+
 ### Parameters
 
 ### fsmounts_hash
@@ -320,10 +321,11 @@ Boolean parameter which can be used too specify the default 'remounts' key value
 - *Default*: true
 - *Examples*: true , false
 
+
 ## Class coretx::root
 Manage the root superuser.
 Resource documentation (user): https://docs.puppet.com/puppet/latest/types/user.html
-------------------------------------------------------------------------------------
+
 ### Parameters
 
 ### root_ssh_keys
@@ -402,7 +404,7 @@ String parameter which can be used to specify the root account password min age 
 Manage the hosts file (/etc/hosts) via erb template - This class will overwrite your hosts file!
 Based off module chrekh/puppet-hosts - origin project url: https://github.com/chrekh/puppet-hosts
 This class makes use of a custom fact (coretx/lib/facter/list_addrs.rb)
------------------------------------------------------------------------
+
 ### Parameters
 
 ### hosts_file_entries
@@ -473,7 +475,7 @@ If true, only use the first address from primary_ipv6
 Manage file resources on client systems
 Resource documentation (file): https://docs.puppet.com/puppet/latest/types/file.html
 Resource documentation (file_line): https://forge.puppet.com/puppetlabs/stdlib#file_line
-----------------------------------------------------------------------------------------
+
 ### Parameters
 
 ### files_hash
@@ -550,7 +552,7 @@ String parameter which can be used for specifying the default 'mode' key value f
 ## Class coretx::yumrepos
 Manage yum repository definitions for the RedHat family.
 Resource documentation (yumrepo): https://docs.puppet.com/puppet/latest/types/yumrepo.html
-------------------------------------------------------------------------------------------
+
 ### Parameters
 
 ### yumrepo_hash
@@ -587,7 +589,7 @@ String parameter which can be used for specifying the default 'gpgcheck' key val
 ## Class coretx::packages
 Manage software package states.
 Resource documentation (package): https://docs.puppet.com/puppet/latest/types/package.html
-------------------------------------------------------------------------------------------
+
 ### Parameters
 
 ### packages_hash
@@ -625,7 +627,7 @@ coretx::packages:
 ## Class coretx::services
 Manage existing service states.
 Resource documentation (service): https://docs.puppet.com/puppet/latest/types/service.html
-------------------------------------------------------------------------------------------
+
 ### Parameters
 
 ### services_hash
@@ -659,5 +661,3 @@ Boolean parameter which can be used for specifying the default 'enable' key valu
 
 - *Default*: true
 - *Examples*: true , false
-
-
