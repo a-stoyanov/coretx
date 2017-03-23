@@ -1,0 +1,11 @@
+# Managed by Puppet module coretx (class coretx::identity)
+# Any manual changes will be overwritten
+
+## SSH authorized public keys ##
+
+<% if @ssh_keys.is_a?(Array) -%>
+<% [@ssh_keys].flatten.each do |entry| -%>
+<%= entry %>
+
+<% end -%>
+<% end -%>

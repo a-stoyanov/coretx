@@ -1,0 +1,48 @@
+# Managed by Puppet module coretx (class coretx::hosts)
+# Any manual changes will be overwritten
+
+<%
+# Calculate the amount of tabs needed for alignment
+def tabs(str)
+  count = ( 31 - str.length ) / 8
+  return " " if count < 1
+  return "\t" * count
+end
+
+# Create a hash of addrs in coretx::hosts::hosts_file_entries to be able to exclude it
+# from entries for loopback or primary.
+explicit = Hash.new
+@hosts_file_entries.each_pair do |key, val|
+  if val.is_a?(Hash)
+    val.each_pair do |ip, names|
+      explicit[ip] = 1
+    end
+  else
+    explicit[key] = 1
+  end
+end
+-%>
+# Loopback
+127.0.0.1               <%= @lo_names4.join(' ') %>
+::1                     <%= @lo_names6.join(' ') %>
+
+# Primary address
+<% @pri_ipv4.reject{|elt| elt.to_s == 'undef' || elt.to_s == '' || explicit.key?(elt) }.each do |ip| -%>
+<%= ip %><%= tabs(ip) %><%= @primary_names.join(' ') %>
+<% end -%>
+<% @pri_ipv6.reject{|elt| elt.to_s == 'undef' || elt.to_s == '' || explicit.key?(elt) }.each do |ip| -%>
+<%= ip %><%= tabs(ip) %><%= @primary_names.join(' ') %>
+<% end -%>
+
+## Host entries ##
+<% @hosts_file_entries.each_pair do |key, val| -%>
+<% if val.is_a?(Hash) -%>
+
+# <%= key %>
+<% val.each_pair do |ip, names| -%>
+<%= ip %><%= tabs(ip) %><%= names.join(' ') %>
+<% end -%>
+<% else -%>
+<%= key %><%= tabs(key) %><%= val.join(' ') %>
+<% end -%>
+<% end -%>

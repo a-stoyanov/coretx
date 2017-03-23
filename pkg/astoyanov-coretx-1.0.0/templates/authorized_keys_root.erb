@@ -1,0 +1,18 @@
+# Managed by Puppet module coretx (class coretx::root)
+# Any manual changes will be overwritten
+
+## SSH authorized public keys ##
+
+<% @root_ssh_keys.each_pair do |key, val| -%>
+<% if val.is_a?(Hash) -%>
+
+# <%= key %>
+<% val.each_pair do |key1, val1| -%>
+<% if val1.is_a?(Array) -%>
+<% val1.flatten.each do |entry| -%>
+<%= entry %>
+<% end -%>
+<% end -%>
+<% end -%>
+<% end -%>
+<% end -%>
