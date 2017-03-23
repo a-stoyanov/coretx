@@ -10,23 +10,23 @@ Supported OS list: RHEL/CentOS/Debian/Ubuntu.
 
 
 ## What does this module do?
-Class coretx::identity - Manage user and group resources. User definition includes multiple SSH keys management via erb template.
+<b>Class coretx::identity</b> - Manage user and group resources. User definition includes multiple SSH keys management via erb template.
 
-Class coretx::cronjob - Manage user and system-wide (/etc/crontab) cron jobs. System crontab is managed via erb template.
+<b>Class coretx::cronjob</b> - Manage user and system-wide (/etc/crontab) cron jobs. System crontab is managed via erb template.
 
-Class coretx::fsmounts - Manage file system mounts resources (/etc/fstab).
+<b>Class coretx::fsmounts</b> - Manage file system mounts resources (/etc/fstab).
 
-Class coretx::root - Manage the root super user account. Includes multiple SSH keys management via erb template (~/.ssh/authorized_keys).
+<b>Class coretx::root</b> - Manage the root super user account. Includes multiple SSH keys management via erb template (~/.ssh/authorized_keys).
 
-Class coretx::hosts - Manage the hosts file (/etc/hosts) via erb template.
+<b>Class coretx::hosts</b> - Manage the hosts file (/etc/hosts) via erb template.
 
-Class coretx::files - Manage file/folder resources.
+<b>Class coretx::files</b> - Manage file/folder resources.
 
-Class coretx::yumrepos - Manage yum repositories on RedHat systems.
+<b>Class coretx::yumrepos</b> - Manage yum repositories on RedHat systems.
 
-Class coretx::packages - Manage generic package resources states.
+<b>Class coretx::packages</b> - Manage generic package resources states.
 
-Class coretx::services - Manage generic service resource states.
+<b>Class coretx::services</b> - Manage generic service resource states.
 
 
 ## Compatibility
