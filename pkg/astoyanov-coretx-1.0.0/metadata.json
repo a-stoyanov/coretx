@@ -12,10 +12,9 @@
   ],
   "data_provider": null,
   "operatingsystem_support": [
-    "RHEL",
-    "CentOS",
-    "Debian",
-    "Ubuntu"
+    {
+      "operatingsystem": "Ubuntu"
+    }
   ],
   "requirements": [
     {
