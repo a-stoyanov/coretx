@@ -26,7 +26,7 @@ define coretx::users (
   $password             = undef,
   $password_max_age     = undef,
   $password_min_age     = undef,
-  $profile_membership   = undef, 
+  $profile_membership   = undef,
   $profiles             = undef,
   $project              = undef,
   $provider             = undef,
@@ -38,7 +38,6 @@ define coretx::users (
   $system               = undef,
   $uid                  = undef,
   $ssh_keys             = undef,
-
 )
 {
   user { $name:
@@ -79,35 +78,35 @@ define coretx::users (
 
 # Require both "ensure" and "managehome" hash keys to be present. Use supplied "home" directory to write ssh keys file
   if ($ensure == 'present') and ($managehome == true or 'yes') and (!empty($home)) {
-    
+
     file { "${home}/.ssh":
-      ensure  => directory,
-      owner   => $name,
-      mode    => '0644',
+      ensure => directory,
+      owner  => $name,
+      mode   => '0644',
     }
-    
+
     file { "${home}/.ssh/authorized_keys":
       ensure  => present,
       owner   => $name,
       mode    => '0644',
       content => template('coretx/authorized_keys_user.erb'),
-    }  
+    }
   }
 
 # Require both "ensure" and "managehome" hash keys to be present. If "home" key missing, use default /home path to write ssh keys file
   if ($ensure == 'present') and ($managehome == true or 'yes') and (empty($home)) {
-    
+
     file { "/home/${name}/.ssh":
-      ensure  => directory,
-      owner   => $name,
-      mode    => '0644',
+      ensure => directory,
+      owner  => $name,
+      mode   => '0644',
     }
-    
+
     file { "/home/${name}/.ssh/authorized_keys":
       ensure  => present,
       owner   => $name,
       mode    => '0644',
       content => template('coretx/authorized_keys_user.erb'),
-    }  
+    }
   }
 }

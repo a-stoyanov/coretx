@@ -9,10 +9,10 @@ class coretx::identity (
   Hash $users_hash       = {},
   Hash $users_defaults   = {},
   Hash $groups_hash      = {},
-  Hash $home_dir_parents = {},  
+  Hash $home_dir_parents = {},
 )
-{ 
+{
   create_resources(file, $home_dir_parents)
   create_resources(coretx::groups, $groups_hash)
-  create_resources(coretx::users, $users_hash, $users_defaults) 
+  create_resources(coretx::users, $users_hash, $users_defaults)
 }

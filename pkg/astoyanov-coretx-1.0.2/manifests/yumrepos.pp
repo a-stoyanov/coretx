@@ -13,7 +13,7 @@ class coretx::yumrepos (
 {
   $yumrepo_defaults = {
     enabled  => $default_yumrepo_enable,
-    gpgcheck => $default_gpgcheck_enable, 
+    gpgcheck => $default_gpgcheck_enable,
   }
   create_resources(yumrepo, $yumrepo_hash, $yumrepo_defaults)
 }

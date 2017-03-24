@@ -1,0 +1,138 @@
+#!/usr/bin/perl
+#
+#
+# Nagios check_cpu idletime plugin.
+# WARNS if cpu %idle is less than $W
+# CRITICAL if cpu %idle is less than $C
+# else OK.
+#
+# Reads /var/log/cpustats which is written
+# by /usr/local/sbin/cpustat from cron.
+#
+
+$LOG="/var/log/cpustats";
+
+use Getopt::Long;
+GetOptions(
+        "W=f" => \$opt_w,
+        "C=f" => \$opt_c,
+        "W=f" => \$opt_w,
+        "c=f" => \$opt_c );
+
+if ($opt_c >= 100) { usage; }
+if ($opt_w >= 100) { usage; }
+
+my %nagios_returnvalue = (
+    'OK'       => 0,
+    'WARNING'  => 1,
+    'CRITICAL' => 2,
+    'UNKNOWN'  => 3,
+);
+
+
+open(LOG,$LOG) || die "Cannot open $LOG: $!\n";
+@log=<LOG>;
+chomp @log;
+
+$id=$log[0];
+$wa=$log[1];
+$sy=$log[2];
+$us=$log[3];
+
+close LOG;
+undef $status;
+if (( $id >= $opt_w ) && ( $id >= $opt_c )) {
+        $status = "OK";
+}
+if ( $id <= $opt_w ){
+         $status = "WARNING";
+}
+if ( $id <= $opt_c ){
+         $status = "CRITICAL";
+}
+# Added IF statement to set status for NULL values to OK
+if (( $id == "" ) && ( $wa == "" ) && ( $sy == "" ) && ( $us == "" )) {
+         $status = "OK";
+}
+if(!$status){
+        $status = "UNKNOWN";
+}
+
+
+# create Output for Nagios
+my $msg=$status.": CPU load [W=$opt_w%, C=$opt_c%] - id=$id%, wa=$wa%, sy=$sy%, us=$us%.";
+print "$msg\n";
+
+# this is the important thing for nagios!
+exit $nagios_returnvalue{$status};
+[root@dns-rec04 ~]# /usr/local/nagios/libexec/check_cpu
+OK: CPU load [W=%, C=%] - id=100%, wa=0%, sy=0%, us=0%.
+[root@dns-rec04 ~]# clear
+[root@dns-rec04 ~]# cat /usr/local/nagios/libexec/check_cpu
+#!/usr/bin/perl
+#
+#
+# Nagios check_cpu idletime plugin.
+# WARNS if cpu %idle is less than $W
+# CRITICAL if cpu %idle is less than $C
+# else OK.
+#
+# Reads /var/log/cpustats which is written
+# by /usr/local/sbin/cpustat from cron.
+#
+
+$LOG="/var/log/cpustats";
+
+use Getopt::Long;
+GetOptions(
+        "W=f" => \$opt_w,
+        "C=f" => \$opt_c,
+        "W=f" => \$opt_w,
+        "c=f" => \$opt_c );
+
+if ($opt_c >= 100) { usage; }
+if ($opt_w >= 100) { usage; }
+
+my %nagios_returnvalue = (
+    'OK'       => 0,
+    'WARNING'  => 1,
+    'CRITICAL' => 2,
+    'UNKNOWN'  => 3,
+);
+
+
+open(LOG,$LOG) || die "Cannot open $LOG: $!\n";
+@log=<LOG>;
+chomp @log;
+
+$id=$log[0];
+$wa=$log[1];
+$sy=$log[2];
+$us=$log[3];
+
+close LOG;
+undef $status;
+if (( $id >= $opt_w ) && ( $id >= $opt_c )) {
+        $status = "OK";
+}
+if ( $id <= $opt_w ){
+         $status = "WARNING";
+}
+if ( $id <= $opt_c ){
+         $status = "CRITICAL";
+}
+# Added IF statement to set status for NULL values to OK
+if (( $id == "" ) && ( $wa == "" ) && ( $sy == "" ) && ( $us == "" )) {
+         $status = "OK";
+}
+if(!$status){
+        $status = "UNKNOWN";
+}
+
+
+# create Output for Nagios
+my $msg=$status.": CPU load [W=$opt_w%, C=$opt_c%] - id=$id%, wa=$wa%, sy=$sy%, us=$us%.";
+print "$msg\n";
+
+# this is the important thing for nagios!
+exit $nagios_returnvalue{$status};

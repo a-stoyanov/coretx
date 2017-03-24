@@ -14,11 +14,11 @@ class coretx::root (
   Optional[String] $root_passwd_max_age = undef,
   Optional[String] $root_passwd_min_age = undef,
 
-) 
+)
 {
   user { 'root':
-    home             => '/root',
     ensure           => present,
+    home             => '/root',
     expiry           => $root_acc_expiry,
     password         => $root_passwd_hash,
     password_max_age => $root_passwd_max_age,
@@ -40,5 +40,5 @@ class coretx::root (
       mode    => '0600',
       content => template('coretx/authorized_keys_root.erb'),
     }
-  } 
+  }
 }

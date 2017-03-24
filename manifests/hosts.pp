@@ -8,6 +8,7 @@ class coretx::hosts (
 
   Hash $hosts_file_entries  = {},
   String $hosts_file        = '/etc/hosts',
+  String $hosts_file_group  = 'root',
   Array $lo_names4          = [ 'localhost.localdomain', 'localhost', 'localhost4.localdomain4', 'localhost4' ],
   Array $lo_names6          = [ 'localhost.localdomain', 'localhost', 'localhost6.localdomain6', 'localhost6' ],
   Boolean $one_primary_ipv4 = true,
@@ -16,21 +17,8 @@ class coretx::hosts (
   Array $primary_ipv6       = split($ipv6_pri_addrs,' '),
   Array $primary_names      = [ $::fqdn, $::hostname ],
 
-) 
+)
 {
-# OS file group owner defaults
-  case $::osfamily {
-    /^(FreeBSD|DragonFly|Darwin)$/: {
-      $root_group = 'wheel'
-    }
-    /^(AIX)$/: {
-      $root_group = 'system'
-    }
-    default: {
-      $root_group = 'root'
-    }
-  }
-
   if empty($ipv4_pri_addrs) and empty($primary_ipv4) {
     $pri_ipv4 = [ $::ipaddress ]
   }
@@ -54,7 +42,7 @@ class coretx::hosts (
   file { $hosts_file:
     ensure  => present,
     owner   => 'root',
-    group   => $root_group,
+    group   => $hosts_file_group,
     mode    => '0644',
     content => template('coretx/hosts.erb'),
   }

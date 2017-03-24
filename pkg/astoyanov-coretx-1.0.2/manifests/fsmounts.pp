@@ -12,14 +12,14 @@ class coretx::fsmounts (
   Boolean $default_fsmounts_remounts = true,
 
 )
-{ 
+{
   $fsmounts_defaults = {
     ensure   => $default_fsmounts_ensure,
     options  => $default_fsmounts_options,
     remounts => $default_fsmounts_remounts,
   }
-  
-  $fsmounts_dir_defaults = {    
+
+  $fsmounts_dir_defaults = {
     ensure   => directory,
   }
 

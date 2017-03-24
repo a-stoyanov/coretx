@@ -1,0 +1,135 @@
+#!/usr/bin/python
+# Nagios plugin to check that a directory is writeable # vim: sw=4 ts=4 ai et #
+ 
+# standard imports
+import os
+import pwd
+import sys
+import getopt
+import warnings
+import random
+import stat
+ 
+# Python complains about use of os.tempnam() below as this can be # used as an attack vector under certain limited circumstances warnings.filterwarnings("ignore", category=RuntimeWarning)
+ 
+def usage():
+    print
+    print 'Usage:   check_writable --dir=DIRECTORY\n'
+    print 'Options: [-h|--help]       This help message'
+    print '         [-d|--dir]        Directory to check'
+    print '         [-v|--verbose]    Verbose output'
+    print '         [-s|--setup]      Create test files for first time use'
+    sys.exit(3) # NAGIOS standard, unknown status
+ 
+def doSetup(tF):
+    # create a default set of test files
+    fileSystems = []
+    fd = os.popen('cat /etc/mtab')
+    parts = fd.readlines()
+    fd.close()
+    for line in parts:
+        line = line.replace('\n', '')
+        line = ' '.join(line.split())
+        x = line.split()
+        if x[0].startswith('/') and x[1].startswith('/'): fileSystems.append(x[1])
+    # make sure we have at least one filesystem in the list
+    if len(fileSystems) == 0:
+        print 'CHECK_WRITABLE CRITICAL - Unable to find any filesystems - manual configuration needed'
+        sys.exit(2)
+    for fs in fileSystems:
+        tempFile = os.path.join(fs, tF)
+        fd = open(tempFile, 'w')
+        randString = ''.join(random.sample('0123456789ABCDEF0123456789ABCDEF', 32))
+        fd.write(randString)
+        fd.close()
+        os.system('chown nagios:nagios %s' % tempFile)
+        os.system('chmod 600 %s' % tempFile)
+        print '%s created' % tempFile
+    print 'all done.'
+    sys.exit(0)
+ 
+def main():
+    verboseMode = False
+    dirNames = []
+ 
+    tF = '.nrpechk'
+ 
+    try:
+        options, args = getopt.getopt(sys.argv[1:], "hd:vs", ['dir=', 'help', 'verbose', 'version', 'setup'])
+    except getopt.GetoptError, optionError:
+        print optionError
+        usage()
+ 
+    for optInd, optArg in options:
+        if optInd in ('-h', '--help'):
+            usage()
+        if optInd in ('-d', '--dir'):
+            dirNames.append(optArg)
+        if optInd in ('-v', '--verbose'):
+            verboseMode = True
+        if optInd in ('-s', '--setup'):
+            if os.geteuid() == 0:
+                doSetup(tF)
+            else:
+                print 'CHECK_WRITABLE CRITICAL - Setup must run as root user'
+                sys.exit(2)
+ 
+    if len(dirNames) == 0: usage()
+ 
+    errStrings = []
+ 
+    # for everything except initial setup, we must be running as the
+    # 'nagios' user
+    userDetails = pwd.getpwuid(os.geteuid())
+    if userDetails[0] != 'nagios':
+        print 'CHECK_WRITABLE CRITICAL - script must run as nagios user'
+        sys.exit(2)
+ 
+    for fileSystem in dirNames:
+        if verboseMode: print 'Checking %s' % fileSystem
+        # check that the directory exists
+        if not os.path.isdir(fileSystem):
+            errStrings.append('%s is not a directory' % fileSystem)
+        else:
+            # check that the test file has writeable permissions
+            testFile = os.path.join(fileSystem, tF)
+            if not os.access(testFile, os.W_OK):
+                errStrings.append('%s has incorrect permissions' % fileSystem)
+            else:
+                try:
+                    tempFD = open(testFile, 'w')
+                except:
+                    errStrings.append('Failed to create temporary file %s' % tempFile)
+                else:
+                    # write a random string of data to the file
+                    randString = ''.join(random.sample('0123456789ABCDEF0123456789ABCDEF', 32))
+                    tempFD.write(randString)
+                    tempFD.close()
+                    if verboseMode: print 'Data written to temporary file: [%s]' % randString
+                    # now re-open the file
+                    try:
+                        tempFD = open(testFile, 'r')
+                    except:
+                        errString.append('Failed to re-open temporary file')
+                    else:
+                        testString = tempFD.read()
+                        if verboseMode: print 'Data read from temporary file: [%s]' % randString
+                        # check that we read back the same as we wrote
+                        if testString != randString:
+                            errStrings.append('Data read was different to data written')
+                        tempFD.close()
+ 
+    if errStrings == []:
+        resultString = 'CHECK_WRITABLE OK - '
+        for fileSystem in dirNames: resultString += fileSystem + '; '
+        print resultString
+        sys.exit(0)
+    else:
+        resultString = 'CHECK_WRITABLE CRITICAL - '
+        for text in errStrings: resultString += text + '; '
+        resultString = resultString[:-2]
+        print resultString
+        sys.exit(2)
+ 
+if __name__ == "__main__":
+    main()

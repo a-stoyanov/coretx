@@ -5,7 +5,7 @@
 # Resource documentation (file_line): https://forge.puppet.com/puppetlabs/stdlib#file_line
 #
 class coretx::files (
-  
+
   Hash $files_hash                      = {},
   Hash $file_line_hash                  = {},
   Boolean $create_parent_dirs           = false,
@@ -41,7 +41,7 @@ class coretx::files (
         }
     }
   }
-  
+
   create_resources(file, $files_hash, $file_defaults)
   create_resources(file_line, $file_line_hash)
 }

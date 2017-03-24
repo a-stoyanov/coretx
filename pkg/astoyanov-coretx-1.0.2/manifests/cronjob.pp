@@ -15,7 +15,7 @@ class coretx::cronjob (
   String $override_cron_service     = 'use_defaults',
 
 )
-{ 
+{
 # OS defaults for /etc/crontab
   case $::osfamily {
     /^(RedHat)$/: {
@@ -42,7 +42,6 @@ class coretx::cronjob (
         $crontab_template = $override_crontab_template
         $cron_service     = $override_cron_service
         warning("Detected osfamily is <${::osfamily}>. Overrides set - template file: <${override_crontab_template}>; shell: <${override_crontab_shell}>; path: <${override_crontab_path}>; cron service: <${override_cron_service}>")
-
       }
     }
   }
@@ -83,7 +82,7 @@ class coretx::cronjob (
   if !empty($user_cronjobs_hash) {
     create_resources(cron, $user_cronjobs_hash)
   }
-  
+
   if !empty($crontab_jobs_hash) {
     file { '/etc/crontab':
       ensure  => present,

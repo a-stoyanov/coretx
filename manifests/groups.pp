@@ -5,7 +5,7 @@
 define coretx::groups (
 
   $ensure               = undef,
-  $allowdupe            = undef, 
+  $allowdupe            = undef,
   $attribute_membership = undef,
   $attributes           = undef,
   $auth_membership      = undef,
