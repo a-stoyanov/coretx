@@ -1,7 +1,7 @@
 {
   "Gemfile": "36c376f27539ded2a321b2bd432e843b",
   "LICENSE": "e3fc50a88d0a364313df4b21ef20c29e",
-  "README.md": "caf6ed0c8e0ed67d00441eb7249fd061",
+  "README.md": "56eb679c750325a2aa5bf15db00fc381",
   "Rakefile": "f4692851f7e9afcdb02721319e3f18b9",
   "examples/init.pp": "ed344e0aa6e513a227357d3d1d9dad75",
   "files/check_corosync": "bfeea6a01593e8b24fc7a07cb5473ea2",
@@ -25,7 +25,7 @@
   "manifests/services.pp": "136378f49fbb0510c4943ef4f059bcd7",
   "manifests/users.pp": "bcb098b303ea0a6e030378c8bef02459",
   "manifests/yumrepos.pp": "cd148068d12d46273e56c46ffc9e9f90",
-  "metadata.json": "c5092d7498b7f4dfa49032d17fcc2ef8",
+  "metadata.json": "4b8c3e5e7fa8573b9d1116336360bdb4",
   "spec/classes/init_spec.rb": "1d589c8027e26486ae2ee3def7e85cb9",
   "spec/spec_helper.rb": "0db89c9a486df193c0e40095422e19dc",
   "templates/authorized_keys_root.erb": "b3380b3531675dd6d30db518b4be5c88",

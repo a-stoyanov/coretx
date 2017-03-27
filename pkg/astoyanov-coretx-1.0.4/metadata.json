@@ -1,8 +1,8 @@
 {
   "name": "astoyanov-coretx",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "author": "Angel Stoyanov <a.stoyanov@gmx.co.uk>",
-  "summary": "A collection of parameterized classes for common resource management on Linix clients. Designed and tested for use with an ENC.",
+  "summary": "A collection of parameterized classes for common resource management on Linux clients. Designed and tested for use with an ENC.",
   "license": "Apache-2.0",
   "source": "https://github.com/a-stoyanov/coretx",
   "project_page": "https://github.com/a-stoyanov/coretx",

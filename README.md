@@ -2,7 +2,7 @@
 
 ## Description
 
-A collection of parameterized classes for common resource management on Linix clients.
+A collection of parameterized classes for common resource management on Linux clients.
 
 Designed and tested for use with an ENC.
 
@@ -12,7 +12,7 @@ Supported OS list: RHEL/CentOS/Debian/Ubuntu.
 ## What does this module do?
 <b>Class coretx::identity</b> - Manage user and group resources. User definition includes multiple SSH keys management via erb template.
 
-<b>Class coretx::cronjob</b> - Manage user and system-wide (/etc/crontab) cron jobs. System crontab is managed via erb template.
+<b>Class coretx::cronjob</b> - Manage user and system-wide Cron jobs. System crontab (/etc/crontab) is managed via erb template.
 
 <b>Class coretx::fsmounts</b> - Manage file system mounts resources (/etc/fstab).
 
@@ -39,8 +39,9 @@ Tested on:
 
 
 ## Installing the module
+<pre>
 puppet module install astoyanov-coretx
-
+</pre>
 
 ## Usage
 
@@ -227,7 +228,7 @@ coretx::cronjob:
 </pre>
 
 ### override_crontab_template
-String parameter which can be used to override what template to use - e.g when you are attempting to use this class on a client OS other than RedHat/Debian/Ubuntu.
+String parameter which can be used to override what template to use, e.g when you are attempting to use this class on a client OS other than RedHat/Debian/Ubuntu.
 
 You can also supply your own template, just need to copy it to the coretx/templates plugin folder.
 
@@ -360,7 +361,7 @@ Resource documentation (user): https://docs.puppet.com/puppet/latest/types/user.
 ### root_ssh_keys
 Hash parameter which can be used to specify ssh keys in via provided erb template.
 
-Overwrites the specified SSH keys file! (Default: /etc/.ssh/authorized_keys)
+Overwrites the specified SSH keys file! (Default: /root/.ssh/authorized_keys)
 
 - *Default*: {}
 - *Examples(YAML)*:
@@ -419,13 +420,13 @@ openssl passwd -1 -salt SomeRandomSaltString
 - *Example*: '$1$324dfdsg$WIrstQFASIpxo3yy4Xjg80'
 
 ### root_passwd_max_age
-String parameter which can be used to specify the root account password max age parameter in days as decimal.
+String parameter which can be used to specify the root account password max age parameter in days as integer.
 
 - *Default*: undef
 - *Example*: '90'
 
 ### root_passwd_min_age
-String parameter which can be used to specify the root account password min age parameter in days as decimal.
+String parameter which can be used to specify the root account password min age parameter in days as integer.
 
 - *Default*: undef
 - *Example*: '1'
@@ -442,6 +443,7 @@ This class makes use of a custom fact (coretx/lib/facter/list_addrs.rb)
 
 ### hosts_file_entries
 A hash with additional host file entries to add. Entries in this hash override automatic host entries for IP's on local interfaces.
+
 The content can be either comment => { ip => [ names ], ... } or just ip => [ names ].
 
 - *Default*: {}
