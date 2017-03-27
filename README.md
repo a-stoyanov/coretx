@@ -470,6 +470,11 @@ String parameter to specify the hosts file location.
 
 - *Default*: '/etc/hosts'
 
+### hosts_file_group
+String parameter to specify the hosts file group owner.
+
+- *Default*: 'root'
+
 ### lo_names4
 List of names for localhost ip4 loopback.
 
